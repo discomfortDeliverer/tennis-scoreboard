@@ -1,4 +1,4 @@
-package ru.discomfortDeliverer.servlets;
+package ru.discomfortDeliverer.servlets.match;
 
 import ru.discomfortDeliverer.model.Match;
 import ru.discomfortDeliverer.model.Player;
@@ -16,10 +16,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @WebServlet("/new-match")
-public class NewMatchServlet extends HttpServlet {
+public class NewMatchServlet extends AbstractMatchServlet {
     private NewMatchService newMatchService= new NewMatchService();
     private PlayerService playerService = new PlayerService();
-    private Map<UUID, Match> matches = new HashMap<>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
