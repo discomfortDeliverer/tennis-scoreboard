@@ -50,6 +50,6 @@ public class NewMatchServlet extends HttpServlet {
 
         matches.put(newMatch.getUuid(), newMatch);
 
-        resp.sendRedirect("/tennis-scoreboard/match-score");
+        resp.sendRedirect("/tennis-scoreboard/match-score?uuid=" + newMatch.getUuid());
     }
 }

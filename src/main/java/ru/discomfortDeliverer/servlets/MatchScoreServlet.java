@@ -12,6 +12,7 @@ public class MatchScoreServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
+        System.out.println(req.getParameter("uuid"));
         resp.getWriter().write("Страница с отображением матче");
     }
 }
