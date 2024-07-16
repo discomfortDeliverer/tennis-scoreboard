@@ -7,18 +7,12 @@ import ru.discomfortDeliverer.service.PlayerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @WebServlet("/new-match")
 public class NewMatchServlet extends AbstractMatchServlet {
-    private NewMatchService newMatchService= new NewMatchService();
-    private PlayerService playerService = new PlayerService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");

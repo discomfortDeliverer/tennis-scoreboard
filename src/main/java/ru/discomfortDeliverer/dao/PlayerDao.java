@@ -80,4 +80,22 @@ public class PlayerDao {
             }
         }
     }
+
+    public Player findPlayerById(Integer playerId) {
+        findAllPlayers();
+
+        Session session = sessionFactory.openSession();
+
+        try{
+            session.beginTransaction();
+
+            Player player = session.get(Player.class, playerId);
+
+            session.getTransaction().commit();
+
+            return player;
+        } finally {
+            session.close();
+        }
+    }
 }

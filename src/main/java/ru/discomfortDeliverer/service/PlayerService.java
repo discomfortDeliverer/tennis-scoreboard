@@ -8,4 +8,8 @@ public class PlayerService {
     public void createPlayerIfNotExists(Player player){
         playerDao.createPlayerIfNotExists(player);
     }
+
+    public Player findPlayerById(Integer playerId) {
+        return playerDao.findPlayerById(playerId);
+    }
 }
