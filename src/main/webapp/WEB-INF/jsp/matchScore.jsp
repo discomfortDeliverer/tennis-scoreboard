@@ -53,12 +53,12 @@
             </tr>
         </tbody>
     </table>
-    <form action="/match-score?uuid=$match_id" method="post">
-        <input type="hidden" name="player_id" value="1">
+    <form action="/tennis-scoreboard/match-score?uuid=<%= request.getAttribute("matchId") %>" method="post">
+        <input type="hidden" name="player_id" value="<%= request.getAttribute("firstPlayerId") %>">
         <button type="submit">Игрок 1 выиграл текущее очко</button>
     </form>
-    <form action="/match-score?uuid=$match_id" method="post">
-        <input type="hidden" name="player_id" value="2">
+    <form action="/tennis-scoreboard/match-score?uuid=<%= request.getAttribute("matchId") %>" method="post">
+        <input type="hidden" name="player_id" value="<%= request.getAttribute("secondPlayerId") %>">
         <button type="submit">Игрок 2 выиграл текущее очко</button>
     </form>
 </body>

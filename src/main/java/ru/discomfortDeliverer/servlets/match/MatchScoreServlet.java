@@ -28,6 +28,15 @@ public class MatchScoreServlet extends AbstractMatchServlet {
 
         req.setAttribute("player1Name", firstPlayer.getName());
         req.setAttribute("player2Name", secondPlayer.getName());
+        req.setAttribute("firstPlayerId", firstPlayer.getId());
+        req.setAttribute("secondPlayerId", secondPlayer.getId());
+        req.setAttribute("matchId", currentMatch.getUuid());
         req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(req.getParameter("uuid"));
+        resp.getWriter().write("Очко получил игрок с id: " + req.getParameter("player_id"));
     }
 }
