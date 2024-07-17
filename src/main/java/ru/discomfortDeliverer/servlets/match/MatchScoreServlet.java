@@ -2,7 +2,9 @@ package ru.discomfortDeliverer.servlets.match;
 
 import ru.discomfortDeliverer.dao.PlayerDao;
 import ru.discomfortDeliverer.model.Match;
+import ru.discomfortDeliverer.model.MatchEntity;
 import ru.discomfortDeliverer.model.Player;
+import ru.discomfortDeliverer.model.Score;
 import ru.discomfortDeliverer.service.PlayerService;
 
 import javax.servlet.ServletException;
@@ -55,9 +57,26 @@ public class MatchScoreServlet extends AbstractMatchServlet {
             matchService.renderMatchScorePage(req, currentMatch, firstPlayer, secondPlayer);
         } else {
             matches.remove(currentMatch.getUuid());
+            MatchEntity match = new MatchEntity();
+            match.setFirstPlayer(firstPlayer);
+            match.setSecondPlayer(secondPlayer);
 
+            Score currentScore = currentMatch.getCurrentScore();
+            Integer firstPlayerSet = currentScore.getFirstPlayerSet();
+            Integer secondPlayerSet = currentScore.getSecondPlayerSet();
+
+            if(firstPlayerSet > secondPlayerSet){
+                match.setWinner(firstPlayer);
+            } else {
+                match.setWinner(secondPlayer);
+            }
+
+            matchService.saveCompletedMatch(match);
+
+            matchService.renderMatchResultPage(req, currentMatch, firstPlayer, secondPlayer);
+
+            req.getRequestDispatcher("/WEB-INF/jsp/matchResultPage.jsp").forward(req, resp);
         }
-
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
         req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);

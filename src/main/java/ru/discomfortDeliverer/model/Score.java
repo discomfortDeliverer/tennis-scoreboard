@@ -1,5 +1,8 @@
 package ru.discomfortDeliverer.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Score {
     private Integer firstPlayerPoint; // 0, 15, 30, 40, win
     private boolean firstPlayerAd;
@@ -9,6 +12,7 @@ public class Score {
     private Integer secondPlayerGame;
     private Integer firstPlayerSet; // Bo3
     private Integer secondPlayerSet;
+    private List<int[]> setResults;
 
     public Score() {
         this.firstPlayerPoint = 0;
@@ -19,6 +23,15 @@ public class Score {
         this.secondPlayerGame = 0;
         this.firstPlayerSet = 0;
         this.secondPlayerSet = 0;
+        this.setResults = new ArrayList<>();
+    }
+
+    public List<int[]> getSetResults() {
+        return setResults;
+    }
+
+    public void setSetResults(List<int[]> setResults) {
+        this.setResults = setResults;
     }
 
     public Integer getFirstPlayerPoint() {

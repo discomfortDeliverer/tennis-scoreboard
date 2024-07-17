@@ -1,5 +1,7 @@
 package ru.discomfortDeliverer.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,6 +29,10 @@ public class Match {
     @Override
     public int hashCode() {
         return Objects.hash(uuid, firstPlayerId, secondPlayerId, currentScore);
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public boolean isFinished() {

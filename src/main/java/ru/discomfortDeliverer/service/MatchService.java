@@ -1,13 +1,16 @@
 package ru.discomfortDeliverer.service;
 
+import ru.discomfortDeliverer.dao.MatchDao;
 import ru.discomfortDeliverer.model.Match;
+import ru.discomfortDeliverer.model.MatchEntity;
 import ru.discomfortDeliverer.model.Player;
 import ru.discomfortDeliverer.model.Score;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class MatchService {
-
+    private MatchDao matchDao = new MatchDao();
     public void updateMatchScore(Match currentMatch, Integer playerWinPointId) {
         Score currentScore = currentMatch.getCurrentScore();
         Integer firstPlayerId = currentMatch.getFirstPlayerId();
@@ -60,11 +63,13 @@ public class MatchService {
     private void updateFirstPlayerGames(Score currentScore) {
         Integer firstPlayerGame = currentScore.getFirstPlayerGame();
         Integer secondPlayerGame = currentScore.getSecondPlayerGame();
+        List<int[]> setResults = currentScore.getSetResults();
 
         if(firstPlayerGame < 6 && secondPlayerGame < 6){
             return;
         }
         if(firstPlayerGame == 6 && secondPlayerGame < 5){
+            setResults.add(new int[]{firstPlayerGame, secondPlayerGame});
             currentScore.setFirstPlayerGame(0);
             currentScore.setSecondPlayerGame(0);
             Integer firstPlayerSet = currentScore.getFirstPlayerSet();
@@ -72,6 +77,7 @@ public class MatchService {
             currentScore.setFirstPlayerSet(firstPlayerSet);
         } else {
             if((firstPlayerGame - secondPlayerGame) == 2){
+                setResults.add(new int[]{firstPlayerGame, secondPlayerGame});
                 currentScore.setFirstPlayerGame(0);
                 currentScore.setSecondPlayerGame(0);
                 Integer firstPlayerSet = currentScore.getFirstPlayerSet();
@@ -125,10 +131,12 @@ public class MatchService {
         Integer firstPlayerGame = currentScore.getFirstPlayerGame();
         Integer secondPlayerGame = currentScore.getSecondPlayerGame();
 
+        List<int[]> setResults = currentScore.getSetResults();
         if(secondPlayerGame < 6 && firstPlayerGame < 6){
             return;
         }
         if(secondPlayerGame == 6 && firstPlayerGame < 5){
+            setResults.add(new int[]{firstPlayerGame, secondPlayerGame});
             currentScore.setSecondPlayerGame(0);
             currentScore.setFirstPlayerGame(0);
             Integer secondPlayerSet = currentScore.getSecondPlayerSet();
@@ -136,6 +144,7 @@ public class MatchService {
             currentScore.setSecondPlayerSet(secondPlayerSet);
         } else {
             if((secondPlayerGame - firstPlayerGame) == 2){
+                setResults.add(new int[]{firstPlayerGame, secondPlayerGame});
                 currentScore.setSecondPlayerGame(0);
                 currentScore.setFirstPlayerGame(0);
                 Integer secondPlayerSet = currentScore.getSecondPlayerSet();
@@ -179,5 +188,45 @@ public class MatchService {
 
         req.setAttribute("secondPlayerGame", currentScore.getSecondPlayerGame());
         req.setAttribute("secondPlayerSet", currentScore.getSecondPlayerSet());
+    }
+
+    public void saveCompletedMatch(MatchEntity match) {
+        matchDao.saveMatch(match);
+    }
+
+    public void renderMatchResultPage(HttpServletRequest req, Match match, Player firstPlayer, Player secondPlayer) {
+        Score currentScore = match.getCurrentScore();
+
+        List<int[]> setResults = currentScore.getSetResults();
+
+        req.setAttribute("firstPlayerFirstSet", setResults.get(0)[0]);
+        req.setAttribute("firstPlayerSecondSet", setResults.get(1)[0]);
+
+        req.setAttribute("secondPlayerFirstSet", setResults.get(0)[1]);
+        req.setAttribute("secondPlayerSecondSet", setResults.get(1)[1]);
+
+        if(setResults.size() == 2) {
+            req.setAttribute("firstPlayerThirdSet", "");
+            int sets = setResults.get(0)[0] + setResults.get(1)[0];
+            req.setAttribute("firstPlayerWinSets", sets);
+
+            sets = setResults.get(0)[1] + setResults.get(1)[1];
+            req.setAttribute("secondPlayerWinSets", sets);
+            req.setAttribute("secondPlayerThirdSet", "");
+        } else {
+            req.setAttribute("firstPlayerThirdSet", setResults.get(2)[0]);
+            int sets = setResults.get(0)[0] + setResults.get(1)[0] + setResults.get(2)[0];
+            req.setAttribute("firstPlayerWinSets", sets);
+
+            req.setAttribute("secondPlayerThirdSet", setResults.get(2)[1]);
+            sets = setResults.get(0)[1] + setResults.get(1)[1] + setResults.get(2)[1];
+            req.setAttribute("secondPlayerWinSets", sets);
+        }
+
+        req.setAttribute("firstPlayerName", firstPlayer.getName());
+        req.setAttribute("firstPlayerSets", currentScore.getFirstPlayerSet());
+
+        req.setAttribute("secondPlayerName", secondPlayer.getName());
+        req.setAttribute("secondPlayerSets", currentScore.getSecondPlayerSet());
     }
 }
