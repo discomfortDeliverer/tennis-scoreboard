@@ -1,73 +1,62 @@
 package ru.discomfortDeliverer.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Matches")
 public class Match {
-    private UUID uuid;
-    private Integer firstPlayerId;
-    private Integer secondPlayerId;
-    private Score currentScore;
-    private boolean finished;
-
-    public Match() {
-        this.uuid = UUID.randomUUID();
-        this.currentScore = new Score();
-        this.finished = false;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Match match = (Match) o;
-        return Objects.equals(uuid, match.uuid) && Objects.equals(firstPlayerId, match.firstPlayerId) && Objects.equals(secondPlayerId, match.secondPlayerId) && Objects.equals(currentScore, match.currentScore);
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "Player1")
+    private Player firstPlayer;
+    @ManyToOne
+    @JoinColumn(name = "Player2")
+    private Player secondPlayer;
+    @ManyToOne
+    @JoinColumn(name = "Winner")
+    private Player winner;
 
     @Override
-    public int hashCode() {
-        return Objects.hash(uuid, firstPlayerId, secondPlayerId, currentScore);
+    public String toString() {
+        return "MatchEntity{" +
+                "id=" + id +
+                ", firstPlayer=" + firstPlayer.getName() +
+                ", secondPlayer=" + secondPlayer.getName() +
+                ", winner=" + winner.getName() +
+                '}';
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public Integer getId() {
+        return id;
     }
 
-    public boolean isFinished() {
-        return finished;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
+    public Player getFirstPlayer() {
+        return firstPlayer;
     }
 
-    public void setFirstPlayerId(Integer firstPlayerId) {
-        this.firstPlayerId = firstPlayerId;
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
     }
 
-    public void setSecondPlayerId(Integer secondPlayerId) {
-        this.secondPlayerId = secondPlayerId;
+    public Player getSecondPlayer() {
+        return secondPlayer;
     }
 
-    public void setCurrentScore(Score currentScore) {
-        this.currentScore = currentScore;
+    public void setSecondPlayer(Player secondPlayer) {
+        this.secondPlayer = secondPlayer;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public Player getWinner() {
+        return winner;
     }
 
-    public Integer getFirstPlayerId() {
-        return firstPlayerId;
-    }
-
-    public Integer getSecondPlayerId() {
-        return secondPlayerId;
-    }
-
-    public Score getCurrentScore() {
-        return currentScore;
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 }

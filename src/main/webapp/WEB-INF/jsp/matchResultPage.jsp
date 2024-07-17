@@ -47,6 +47,8 @@
             <td><%= request.getAttribute("secondPlayerWinSets") %></td>
         </tr>
     </table>
+    <form action="/tennis-scoreboard/" method="get">
+        <button type="submit">Вернуться на главную страницу</button>
+    </form>
 </body>
 </html>
-

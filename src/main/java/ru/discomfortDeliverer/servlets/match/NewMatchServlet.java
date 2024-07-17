@@ -1,9 +1,7 @@
 package ru.discomfortDeliverer.servlets.match;
 
-import ru.discomfortDeliverer.model.Match;
+import ru.discomfortDeliverer.dto.MatchDTO;
 import ru.discomfortDeliverer.model.Player;
-import ru.discomfortDeliverer.service.NewMatchService;
-import ru.discomfortDeliverer.service.PlayerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,12 +35,12 @@ public class NewMatchServlet extends AbstractMatchServlet {
         playerService.createPlayerIfNotExists(firstPlayer);
         playerService.createPlayerIfNotExists(secondPlayer);
 
-        Match newMatch = new Match();
-        newMatch.setFirstPlayerId(firstPlayer.getId());
-        newMatch.setSecondPlayerId(secondPlayer.getId());
+        MatchDTO newMatchDTO = new MatchDTO();
+        newMatchDTO.setFirstPlayerId(firstPlayer.getId());
+        newMatchDTO.setSecondPlayerId(secondPlayer.getId());
 
-        matches.put(newMatch.getUuid(), newMatch);
+        matches.put(newMatchDTO.getUuid(), newMatchDTO);
 
-        resp.sendRedirect("/tennis-scoreboard/match-score?uuid=" + newMatch.getUuid());
+        resp.sendRedirect("/tennis-scoreboard/match-score?uuid=" + newMatchDTO.getUuid());
     }
 }

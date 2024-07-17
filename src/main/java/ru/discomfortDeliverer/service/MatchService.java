@@ -1,8 +1,8 @@
 package ru.discomfortDeliverer.service;
 
 import ru.discomfortDeliverer.dao.MatchDao;
+import ru.discomfortDeliverer.dto.MatchDTO;
 import ru.discomfortDeliverer.model.Match;
-import ru.discomfortDeliverer.model.MatchEntity;
 import ru.discomfortDeliverer.model.Player;
 import ru.discomfortDeliverer.model.Score;
 
@@ -11,21 +11,21 @@ import java.util.List;
 
 public class MatchService {
     private MatchDao matchDao = new MatchDao();
-    public void updateMatchScore(Match currentMatch, Integer playerWinPointId) {
-        Score currentScore = currentMatch.getCurrentScore();
-        Integer firstPlayerId = currentMatch.getFirstPlayerId();
-        Integer secondPlayerId = currentMatch.getSecondPlayerId();
+    public void updateMatchScore(MatchDTO currentMatchDTO, Integer playerWinPointId) {
+        Score currentScore = currentMatchDTO.getCurrentScore();
+        Integer firstPlayerId = currentMatchDTO.getFirstPlayerId();
+        Integer secondPlayerId = currentMatchDTO.getSecondPlayerId();
         // Добавить логику обновления счета
 
         if(firstPlayerId == playerWinPointId){
             updateFirstPlayerPoints(currentScore);
             updateFirstPlayerGames(currentScore);
-            updateFirstPlayerSets(currentScore, currentMatch);
+            updateFirstPlayerSets(currentScore, currentMatchDTO);
         }
         if (secondPlayerId == playerWinPointId) {
             updateSecondPlayerPoints(currentScore);
             updateSecondPlayerGames(currentScore);
-            updateSecondPlayerSets(currentScore, currentMatch);
+            updateSecondPlayerSets(currentScore, currentMatchDTO);
         }
     }
 
@@ -87,12 +87,12 @@ public class MatchService {
         }
     }
 
-    private void updateFirstPlayerSets(Score currentScore, Match match){
+    private void updateFirstPlayerSets(Score currentScore, MatchDTO matchDTO){
         Integer firstPlayerSet = currentScore.getFirstPlayerSet();
         Integer secondPlayerSet = currentScore.getSecondPlayerSet();
 
         if(firstPlayerSet == 2 || secondPlayerSet == 2){
-            match.setFinished(true);
+            matchDTO.setFinished(true);
         }
     }
 
@@ -154,24 +154,24 @@ public class MatchService {
         }
     }
 
-    private void updateSecondPlayerSets(Score currentScore, Match match){
+    private void updateSecondPlayerSets(Score currentScore, MatchDTO matchDTO){
         Integer firstPlayerSet = currentScore.getFirstPlayerSet();
         Integer secondPlayerSet = currentScore.getSecondPlayerSet();
 
         if(firstPlayerSet == 2 || secondPlayerSet == 2){
-            match.setFinished(true);
+            matchDTO.setFinished(true);
         }
     }
 
-    public void renderMatchScorePage(HttpServletRequest req, Match currentMatch,
+    public void renderMatchScorePage(HttpServletRequest req, MatchDTO currentMatchDTO,
                                      Player firstPlayer, Player secondPlayer) {
         req.setAttribute("player1Name", firstPlayer.getName());
         req.setAttribute("player2Name", secondPlayer.getName());
         req.setAttribute("firstPlayerId", firstPlayer.getId());
         req.setAttribute("secondPlayerId", secondPlayer.getId());
-        req.setAttribute("matchId", currentMatch.getUuid());
+        req.setAttribute("matchId", currentMatchDTO.getUuid());
 
-        Score currentScore = currentMatch.getCurrentScore();
+        Score currentScore = currentMatchDTO.getCurrentScore();
         if(currentScore.isFirstPlayerAd()){
             req.setAttribute("firstPlayerPoint", "AD");
         } else {
@@ -190,12 +190,12 @@ public class MatchService {
         req.setAttribute("secondPlayerSet", currentScore.getSecondPlayerSet());
     }
 
-    public void saveCompletedMatch(MatchEntity match) {
+    public void saveCompletedMatch(Match match) {
         matchDao.saveMatch(match);
     }
 
-    public void renderMatchResultPage(HttpServletRequest req, Match match, Player firstPlayer, Player secondPlayer) {
-        Score currentScore = match.getCurrentScore();
+    public void renderMatchResultPage(HttpServletRequest req, MatchDTO matchDTO, Player firstPlayer, Player secondPlayer) {
+        Score currentScore = matchDTO.getCurrentScore();
 
         List<int[]> setResults = currentScore.getSetResults();
 
@@ -228,5 +228,9 @@ public class MatchService {
 
         req.setAttribute("secondPlayerName", secondPlayer.getName());
         req.setAttribute("secondPlayerSets", currentScore.getSecondPlayerSet());
+    }
+
+    public List<Match> findMatchesByPlayerName(String playerName, int page, int size) {
+        return matchDao.findMatchesByPlayerName(playerName, page, size);
     }
 }

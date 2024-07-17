@@ -357,7 +357,7 @@
   <!--  cmdLineArgumentsDecoded                                             -->
   <!--                        Only used when enableCmdLineArguments is      -->
   <!--                        true. The pattern that individual decoded     -->
-  <!--                        command line arguments must match else the    -->
+  <!--                        command line arguments must matchDTO else the    -->
   <!--                        request will be rejected. This is to          -->
   <!--                        work-around various issues when Java passes   -->
   <!--                        the arguments to the OS. See the CGI How-To   -->
@@ -371,7 +371,7 @@
   <!--   cmdLineArgumentsEncoded                                            -->
   <!--                        Only used when enableCmdLineArguments is      -->
   <!--                        true. The pattern that individual encoded     -->
-  <!--                        command line arguments must match else the    -->
+  <!--                        command line arguments must matchDTO else the    -->
   <!--                        request will be rejected. The default matches -->
   <!--                        the allowed values defined by RFC3875.        -->
   <!--                        [[\w\Q%;/?:@&,$-.!~*'()\E]+]                  -->
@@ -388,7 +388,7 @@
   <!--                        headers passed to the CGI process as          -->
   <!--                        environment variables. Note that headers are  -->
   <!--                        converted to upper case before matching and   -->
-  <!--                        that the entire header name must match the    -->
+  <!--                        that the entire header name must matchDTO the    -->
   <!--                        pattern.                                      -->
   <!--                        [ACCEPT[-0-9A-Z]*|CACHE-CONTROL|COOKIE|HOST|  -->
   <!--                         IF-[-0-9A-Z]*|REFERER|USER-AGENT]            -->

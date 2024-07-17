@@ -1,15 +1,12 @@
 package ru.discomfortDeliverer.servlets.match;
 
-import ru.discomfortDeliverer.dao.PlayerDao;
+import ru.discomfortDeliverer.dto.MatchDTO;
 import ru.discomfortDeliverer.model.Match;
-import ru.discomfortDeliverer.model.MatchEntity;
 import ru.discomfortDeliverer.model.Player;
 import ru.discomfortDeliverer.model.Score;
-import ru.discomfortDeliverer.service.PlayerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,16 +20,16 @@ public class MatchScoreServlet extends AbstractMatchServlet {
         resp.setContentType("text/html; charset=UTF-8");
 
         UUID uuid = UUID.fromString(req.getParameter("uuid"));
-        Match currentMatch = matches.get(uuid);
+        MatchDTO currentMatchDTO = matches.get(uuid);
 
-        Player firstPlayer = playerService.findPlayerById(currentMatch.getFirstPlayerId());
-        Player secondPlayer = playerService.findPlayerById(currentMatch.getSecondPlayerId());
+        Player firstPlayer = playerService.findPlayerById(currentMatchDTO.getFirstPlayerId());
+        Player secondPlayer = playerService.findPlayerById(currentMatchDTO.getSecondPlayerId());
 
         req.setAttribute("player1Name", firstPlayer.getName());
         req.setAttribute("player2Name", secondPlayer.getName());
         req.setAttribute("firstPlayerId", firstPlayer.getId());
         req.setAttribute("secondPlayerId", secondPlayer.getId());
-        req.setAttribute("matchId", currentMatch.getUuid());
+        req.setAttribute("matchId", currentMatchDTO.getUuid());
 
         req.setAttribute("firstPlayerPoint", 0);
         req.setAttribute("firstPlayerSet", 0);
@@ -46,22 +43,22 @@ public class MatchScoreServlet extends AbstractMatchServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Match currentMatch = matches.get(UUID.fromString(req.getParameter("uuid")));
+        MatchDTO currentMatchDTO = matches.get(UUID.fromString(req.getParameter("uuid")));
 
         Integer playerWinPointId = Integer.parseInt(req.getParameter("player_id"));
-        matchService.updateMatchScore(currentMatch, playerWinPointId);
+        matchService.updateMatchScore(currentMatchDTO, playerWinPointId);
 
-        Player firstPlayer = playerService.findPlayerById(currentMatch.getFirstPlayerId());
-        Player secondPlayer = playerService.findPlayerById(currentMatch.getSecondPlayerId());
-        if (!currentMatch.isFinished()){
-            matchService.renderMatchScorePage(req, currentMatch, firstPlayer, secondPlayer);
+        Player firstPlayer = playerService.findPlayerById(currentMatchDTO.getFirstPlayerId());
+        Player secondPlayer = playerService.findPlayerById(currentMatchDTO.getSecondPlayerId());
+        if (!currentMatchDTO.isFinished()){
+            matchService.renderMatchScorePage(req, currentMatchDTO, firstPlayer, secondPlayer);
         } else {
-            matches.remove(currentMatch.getUuid());
-            MatchEntity match = new MatchEntity();
+            matches.remove(currentMatchDTO.getUuid());
+            Match match = new Match();
             match.setFirstPlayer(firstPlayer);
             match.setSecondPlayer(secondPlayer);
 
-            Score currentScore = currentMatch.getCurrentScore();
+            Score currentScore = currentMatchDTO.getCurrentScore();
             Integer firstPlayerSet = currentScore.getFirstPlayerSet();
             Integer secondPlayerSet = currentScore.getSecondPlayerSet();
 
@@ -73,7 +70,7 @@ public class MatchScoreServlet extends AbstractMatchServlet {
 
             matchService.saveCompletedMatch(match);
 
-            matchService.renderMatchResultPage(req, currentMatch, firstPlayer, secondPlayer);
+            matchService.renderMatchResultPage(req, currentMatchDTO, firstPlayer, secondPlayer);
 
             req.getRequestDispatcher("/WEB-INF/jsp/matchResultPage.jsp").forward(req, resp);
         }
