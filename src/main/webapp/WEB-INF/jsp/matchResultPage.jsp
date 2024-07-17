@@ -7,17 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таблица результатов</title>
     <style>
+        h1 {
+            font-family: 'Arial', sans-serif; /* Изменение шрифта */
+            font-size: 100px; /* Изменение размера текста */
+            color: #66fdee; /* Изменение цвета текста */
+            text-align: center; /* Выравнивание текста по центру */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #202833;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
+            background-color: #202833;
         }
         th, td {
-            border: 1px solid black;
+            border: 1px solid #66fdee;
             padding: 8px;
             text-align: center;
+            font-size: 24px;
+            font-family: 'Arial', sans-serif;
+            color: #66fdee;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #334052;
+        }
+        button {
+            padding: 15px 30px;
+            background-color: transparent;
+            border: 5px solid #66fdee;
+            color: #66fdee; /* Цвет текста */
+            cursor: pointer;
+            border-radius: 15px;
+            font-size: 1.7em;
+        }
+        button:hover {
+            background-color: #45a29f;
         }
     </style>
 </head>
@@ -47,6 +73,7 @@
             <td><%= request.getAttribute("secondPlayerWinSets") %></td>
         </tr>
     </table>
+    <br>
     <form action="/tennis-scoreboard/" method="get">
         <button type="submit">Вернуться на главную страницу</button>
     </form>
