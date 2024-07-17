@@ -1,8 +1,10 @@
 package ru.discomfortDeliverer.model;
 
 public class Score {
-    private Integer firstPlayerPoint; // 0, 15, 30, 45, 60
+    private Integer firstPlayerPoint; // 0, 15, 30, 40, win
+    private boolean firstPlayerAd;
     private Integer secondPlayerPoint;
+    private boolean secondPlayerAd;
     private Integer firstPlayerGame; // 0, 1, 2, 3, 4, 5, 6
     private Integer secondPlayerGame;
     private Integer firstPlayerSet; // Bo3
@@ -10,7 +12,9 @@ public class Score {
 
     public Score() {
         this.firstPlayerPoint = 0;
+        this.firstPlayerAd = false;
         this.secondPlayerPoint = 0;
+        this.secondPlayerAd = false;
         this.firstPlayerGame = 0;
         this.secondPlayerGame = 0;
         this.firstPlayerSet = 0;
@@ -25,12 +29,28 @@ public class Score {
         this.firstPlayerPoint = firstPlayerPoint;
     }
 
+    public boolean isFirstPlayerAd() {
+        return firstPlayerAd;
+    }
+
+    public void setFirstPlayerAd(boolean firstPlayerAd) {
+        this.firstPlayerAd = firstPlayerAd;
+    }
+
     public Integer getSecondPlayerPoint() {
         return secondPlayerPoint;
     }
 
     public void setSecondPlayerPoint(Integer secondPlayerPoint) {
         this.secondPlayerPoint = secondPlayerPoint;
+    }
+
+    public boolean isSecondPlayerAd() {
+        return secondPlayerAd;
+    }
+
+    public void setSecondPlayerAd(boolean secondPlayerAd) {
+        this.secondPlayerAd = secondPlayerAd;
     }
 
     public Integer getFirstPlayerGame() {

@@ -33,23 +33,23 @@
         <thead>
             <tr>
                 <th>Имена игроков</th>
-                <th>Сеты</th>
-                <th>Геймы</th>
                 <th>Поинты</th>
+                <th>Геймы</th>
+                <th>Сеты</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><%= request.getAttribute("player1Name") %></td>
-                <td>2</td>
-                <td>6</td>
-                <td>15</td>
+                <td><%= request.getAttribute("firstPlayerPoint") %></td>
+                <td><%= request.getAttribute("firstPlayerGame") %></td>
+                <td><%= request.getAttribute("firstPlayerSet") %></td>
             </tr>
             <tr>
                 <td><%= request.getAttribute("player2Name") %></td>
-                <td>1</td>
-                <td>4</td>
-                <td>30</td>
+                <td><%= request.getAttribute("secondPlayerPoint") %></td>
+                <td><%= request.getAttribute("secondPlayerGame") %></td>
+                <td><%= request.getAttribute("secondPlayerSet") %></td>
             </tr>
         </tbody>
     </table>

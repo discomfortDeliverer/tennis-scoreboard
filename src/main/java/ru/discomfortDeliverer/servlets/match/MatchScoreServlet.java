@@ -31,12 +31,35 @@ public class MatchScoreServlet extends AbstractMatchServlet {
         req.setAttribute("firstPlayerId", firstPlayer.getId());
         req.setAttribute("secondPlayerId", secondPlayer.getId());
         req.setAttribute("matchId", currentMatch.getUuid());
+
+        req.setAttribute("firstPlayerPoint", 0);
+        req.setAttribute("firstPlayerSet", 0);
+        req.setAttribute("firstPlayerGame", 0);
+
+        req.setAttribute("secondPlayerPoint", 0);
+        req.setAttribute("secondPlayerSet", 0);
+        req.setAttribute("secondPlayerGame", 0);
         req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameter("uuid"));
-        resp.getWriter().write("Очко получил игрок с id: " + req.getParameter("player_id"));
+        Match currentMatch = matches.get(UUID.fromString(req.getParameter("uuid")));
+
+        Integer playerWinPointId = Integer.parseInt(req.getParameter("player_id"));
+        matchService.updateMatchScore(currentMatch, playerWinPointId);
+
+        Player firstPlayer = playerService.findPlayerById(currentMatch.getFirstPlayerId());
+        Player secondPlayer = playerService.findPlayerById(currentMatch.getSecondPlayerId());
+        if (!currentMatch.isFinished()){
+            matchService.renderMatchScorePage(req, currentMatch, firstPlayer, secondPlayer);
+        } else {
+            matches.remove(currentMatch.getUuid());
+
+        }
+
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);
     }
 }

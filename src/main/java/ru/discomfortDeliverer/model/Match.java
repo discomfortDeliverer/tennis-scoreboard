@@ -8,10 +8,12 @@ public class Match {
     private Integer firstPlayerId;
     private Integer secondPlayerId;
     private Score currentScore;
+    private boolean finished;
 
     public Match() {
         this.uuid = UUID.randomUUID();
         this.currentScore = new Score();
+        this.finished = false;
     }
 
     @Override
@@ -25,6 +27,14 @@ public class Match {
     @Override
     public int hashCode() {
         return Objects.hash(uuid, firstPlayerId, secondPlayerId, currentScore);
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public void setFirstPlayerId(Integer firstPlayerId) {
