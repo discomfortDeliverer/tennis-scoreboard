@@ -6,7 +6,6 @@ import ru.discomfortDeliverer.model.Player;
 
 public abstract class BaseDao {
     protected SessionFactory sessionFactory;
-
     public BaseDao(){
         sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
