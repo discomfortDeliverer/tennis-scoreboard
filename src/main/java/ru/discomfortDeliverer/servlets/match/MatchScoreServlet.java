@@ -22,8 +22,8 @@ public class MatchScoreServlet extends AbstractMatchServlet {
         UUID uuid = UUID.fromString(req.getParameter("uuid"));
         MatchDTO currentMatchDTO = matches.get(uuid);
 
-        Player firstPlayer = playerService.findPlayerById(currentMatchDTO.getFirstPlayerId());
-        Player secondPlayer = playerService.findPlayerById(currentMatchDTO.getSecondPlayerId());
+        Player firstPlayer = currentMatchDTO.getFirstPlayer();
+        Player secondPlayer = currentMatchDTO.getSecondPlayer();
 
         matchService.renderMatchScorePage(req, currentMatchDTO, firstPlayer, secondPlayer);
         req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);
@@ -36,8 +36,9 @@ public class MatchScoreServlet extends AbstractMatchServlet {
         Integer playerWinPointId = Integer.parseInt(req.getParameter("player_id"));
         matchService.updateMatchScore(currentMatchDTO, playerWinPointId);
 
-        Player firstPlayer = playerService.findPlayerById(currentMatchDTO.getFirstPlayerId());
-        Player secondPlayer = playerService.findPlayerById(currentMatchDTO.getSecondPlayerId());
+        Player firstPlayer = currentMatchDTO.getFirstPlayer();
+        Player secondPlayer = currentMatchDTO.getSecondPlayer();
+
         if (!currentMatchDTO.isFinished()){
             matchService.renderMatchScorePage(req, currentMatchDTO, firstPlayer, secondPlayer);
         } else {

@@ -37,8 +37,8 @@ public class NewMatchServlet extends AbstractMatchServlet {
         playerService.createPlayerIfNotExists(secondPlayer);
 
         MatchDTO newMatchDTO = new MatchDTO();
-        newMatchDTO.setFirstPlayerId(firstPlayer.getId());
-        newMatchDTO.setSecondPlayerId(secondPlayer.getId());
+        newMatchDTO.setFirstPlayer(firstPlayer);
+        newMatchDTO.setSecondPlayer(secondPlayer);
 
         matches.put(newMatchDTO.getUuid(), newMatchDTO);
 

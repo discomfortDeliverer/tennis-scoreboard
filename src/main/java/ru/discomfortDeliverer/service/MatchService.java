@@ -13,8 +13,8 @@ public class MatchService {
     private MatchDao matchDao = new MatchDao();
     public void updateMatchScore(MatchDTO currentMatchDTO, Integer playerWinPointId) {
         Score currentScore = currentMatchDTO.getCurrentScore();
-        Integer firstPlayerId = currentMatchDTO.getFirstPlayerId();
-        Integer secondPlayerId = currentMatchDTO.getSecondPlayerId();
+        Integer firstPlayerId = currentMatchDTO.getFirstPlayer().getId();
+        Integer secondPlayerId = currentMatchDTO.getSecondPlayer().getId();
         // Добавить логику обновления счета
 
         if(firstPlayerId == playerWinPointId){
@@ -231,6 +231,11 @@ public class MatchService {
     }
 
     public List<Match> findMatchesByPlayerName(String playerName, int page, int size) {
-        return matchDao.findMatchesByPlayerName(playerName, page, size);
+        String validatedPlayerName = validatePlayerName(playerName);
+        return matchDao.findMatchesByPlayerName(validatedPlayerName, page, size);
+    }
+
+    private String validatePlayerName(String playerName){
+        return playerName.trim();
     }
 }

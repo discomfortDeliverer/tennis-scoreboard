@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.discomfortDeliverer.dto.MatchDTO;
+import ru.discomfortDeliverer.model.Player;
 import ru.discomfortDeliverer.model.Score;
 import ru.discomfortDeliverer.service.MatchService;
 
@@ -14,6 +15,8 @@ public class MatchServiceTest{
     private MatchDTO currentMatchDTO;
     private Integer playerWinPointId;
     private Score score;
+    private Player firstPlayer;
+    private Player secondPlayer;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -21,12 +24,16 @@ public class MatchServiceTest{
         currentMatchDTO = new MatchDTO();
         playerWinPointId = null;
         score = new Score();
+        firstPlayer = new Player();
+        firstPlayer.setId(0);
+        secondPlayer = new Player();
+        secondPlayer.setId(1);
+        currentMatchDTO.setFirstPlayer(firstPlayer);
+        currentMatchDTO.setSecondPlayer(secondPlayer);;
     }
 
     @Test
     public void updateMatchScore_GameShouldContinue(){
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(40);
@@ -45,8 +52,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_WhenFirstPlayerWinPointWhen40_0HeWinGame(){
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(0);
@@ -65,8 +70,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_WhenScoreIs6_6StartsTieBrake(){
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(0);
@@ -86,8 +89,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_WhilePointsLessThan30AdditionalPointsEquals15(){
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         // 15:0
         currentMatchDTO.setCurrentScore(score);
@@ -140,8 +141,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_WhilePointsMoreThan30AdditionalPointsEquals10() {
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         // 40:30
         score.setFirstPlayerPoint(30);
@@ -172,8 +171,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_40_40Advantage() {
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         // FirstPlayer = 40, SecondPlayer < 40
         score.setFirstPlayerPoint(40);
@@ -242,8 +239,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_FirstAndSecondPlayersGameLessThan6() {
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(30);
@@ -265,8 +260,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_FirstPlayerGameIs6AndSecondPlayersGameLessThan5() {
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(30);
@@ -288,8 +281,6 @@ public class MatchServiceTest{
 
     @Test
     public void updateMatchScore_TieBrakeTest() {
-        currentMatchDTO.setFirstPlayerId(0);
-        currentMatchDTO.setSecondPlayerId(1);
 
         score.setFirstPlayerPoint(40);
         score.setSecondPlayerPoint(30);
