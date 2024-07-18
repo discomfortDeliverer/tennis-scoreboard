@@ -25,19 +25,7 @@ public class MatchScoreServlet extends AbstractMatchServlet {
         Player firstPlayer = playerService.findPlayerById(currentMatchDTO.getFirstPlayerId());
         Player secondPlayer = playerService.findPlayerById(currentMatchDTO.getSecondPlayerId());
 
-        req.setAttribute("player1Name", firstPlayer.getName());
-        req.setAttribute("player2Name", secondPlayer.getName());
-        req.setAttribute("firstPlayerId", firstPlayer.getId());
-        req.setAttribute("secondPlayerId", secondPlayer.getId());
-        req.setAttribute("matchId", currentMatchDTO.getUuid());
-
-        req.setAttribute("firstPlayerPoint", 0);
-        req.setAttribute("firstPlayerSet", 0);
-        req.setAttribute("firstPlayerGame", 0);
-
-        req.setAttribute("secondPlayerPoint", 0);
-        req.setAttribute("secondPlayerSet", 0);
-        req.setAttribute("secondPlayerGame", 0);
+        matchService.renderMatchScorePage(req, currentMatchDTO, firstPlayer, secondPlayer);
         req.getRequestDispatcher("/WEB-INF/jsp/matchScore.jsp").forward(req, resp);
     }
 
