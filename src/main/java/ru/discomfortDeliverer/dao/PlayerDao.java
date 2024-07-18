@@ -9,18 +9,10 @@ import ru.discomfortDeliverer.model.Player;
 
 import java.util.List;
 
-public class PlayerDao {
-    private SessionFactory sessionFactory;
-
-    public PlayerDao(){
-        sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Player.class)
-                .buildSessionFactory();
-    }
+public class PlayerDao extends BaseDao{
 
     private boolean isPlayerExists(Player player){
-        Session session = sessionFactory.openSession();
+        Session session = getSessionFactory().openSession();
 
         try{
             session.beginTransaction();
@@ -43,7 +35,7 @@ public class PlayerDao {
     }
 
     private void findAllPlayers(){
-        Session session = sessionFactory.openSession();
+        Session session = getSessionFactory().openSession();
 
         try {
             session.beginTransaction();
@@ -63,7 +55,7 @@ public class PlayerDao {
 
     public void createPlayerIfNotExists(Player player) {
         if(!isPlayerExists(player)){
-            Session session = sessionFactory.openSession();
+            Session session = getSessionFactory().openSession();
 
             try{
                 session.beginTransaction();
@@ -84,7 +76,7 @@ public class PlayerDao {
     public Player findPlayerById(Integer playerId) {
         findAllPlayers();
 
-        Session session = sessionFactory.openSession();
+        Session session = getSessionFactory().openSession();
 
         try{
             session.beginTransaction();

@@ -9,19 +9,11 @@ import ru.discomfortDeliverer.model.Player;
 
 import java.util.List;
 
-public class MatchDao {
-    private SessionFactory sessionFactory;
-
-    public MatchDao(){
-        sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Player.class)
-                .buildSessionFactory();
-    }
+public class MatchDao extends BaseDao{
 
     public void saveMatch(Match match) {
 
-        Session session = sessionFactory.openSession();
+        Session session = getSessionFactory().openSession();
 
         try{
             session.beginTransaction();
@@ -39,7 +31,7 @@ public class MatchDao {
     }
 
     public List<Match> findMatchesByPlayerName(String playerName, int page, int size) {
-        Session session = sessionFactory.openSession();
+        Session session = getSessionFactory().openSession();
         String hql = "SELECT m FROM Match m JOIN m.firstPlayer p1 JOIN m.secondPlayer p2 WHERE p1.name = :playerName OR p2.name = :playerName";
         Query query = session.createQuery(hql, Match.class);
         query.setParameter("playerName", playerName);
