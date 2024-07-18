@@ -14,7 +14,8 @@ public class NewMatchServlet extends AbstractMatchServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
-        req.getRequestDispatcher("/WEB-INF/jsp/simplePage.jsp").forward(req, resp);
+        resp.setContentType("text/html");
+        req.getRequestDispatcher("/WEB-INF/jsp/createNewMatchForm.jsp").forward(req, resp);
     }
 
     @Override
