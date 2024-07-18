@@ -91,6 +91,6 @@
                 <input type="hidden" name="player_id" value="<%= request.getAttribute("secondPlayerId") %>">
                 <button type="submit">Игрок 2 выиграл текущее очко</button>
             </form>
-    </div
+    </div>
 </body>
 </html>

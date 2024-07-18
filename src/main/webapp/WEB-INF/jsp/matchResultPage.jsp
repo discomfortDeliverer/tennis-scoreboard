@@ -23,7 +23,7 @@
             background-color: #202833;
         }
         th, td {
-            border: 1px solid #66fdee;
+        border: 1px solid #66fdee;
             padding: 8px;
             text-align: center;
             font-size: 24px;

@@ -37,7 +37,7 @@
             height: 70px; /* Фиксированная высота кнопок */
             margin: 10px;
             background-color: transparent;
-            border: 5px solid #66fdee;
+            border: 3px solid #66fdee;
             color: #66fdee; /* Цвет текста */
             cursor: pointer;
             border-radius: 15px;
